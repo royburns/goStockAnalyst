@@ -23,5 +23,5 @@ _testmain.go
 *.exe~
 *.test
 
-.sublime-project
-.sublime-workspace
+*.sublime-project
+*.sublime-workspace
