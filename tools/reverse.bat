@@ -1,1 +1,1 @@
-xorm reverse mysql root:123123@(127.0.0.1:3306)/stockanalyst?charset=utf8 templates/goxorm
+xorm reverse mysql root:123123@127.0.0.1:3306/test?charset=utf8 templates/goxorm
