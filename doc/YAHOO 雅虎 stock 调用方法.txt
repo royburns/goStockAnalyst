@@ -1,0 +1,246 @@
+
+350514508@qq.com
+roy.burns@163.com
+
+YAHOO 雅虎 stock 调用方法   
+雅虎接口：  
+http://finance.cn.yahoo.com/q/o?s=^fchi  
+http://finance.yahoo.com/d/quotes.csv?s=%5EFCHI&f=sl1d1t1c1ohgv&e=.csv 
+http://finance.yahoo.com/q?s=%5Efchi  
+http://download.finance.yahoo.com/d/quotes.csv?s=%5EFCHI&f=sl1d1t1c1ohgv&e=.csv  
+http://table.finance.yahoo.com/table.csv?s=^FTSE  
+http://table.finance.yahoo.com/table.csv?s=^FTSE&d=4&e=1&f=2009&g=d&a=4&b=6&c=2009&ignore=.csv   
+
+一、格式一  
+http://in.finance.yahoo.com/d/quotes.csv?s=000001.SZ&f=sl1d1t1c1ohgvj1pp2owern&e=1.txt
+示例：  
+"000001.SZ",14.99,"3/6/2009","11:00pm",-0.16,14.75, 15.35, 14.72, 45439592,N/A,15.15, "-1.06%",14.75, "8.00 - 31.30",0.00,N/A,"SDB"  
+"000002.SZ",8.08 ,"3/6/2009","11:00pm",+0.15,7.80 , 8.23 ,7.75  ,224880880,N/A,7.93 , "+1.89%",7.80 , "4.80 - 27.10",0.00,N/A,"VANKE-A"  
+
+股票名称    当前价 日期       时间    XX     今开盘 今最高 今最低 成交量   X   昨收盘 X        今开盘 X              X    X   X 
+注：无卖出价、成交额，且当前价=买入价。   
+
+二、格式二  
+http://in.finance.yahoo.com/d/quotes.csv?s=000001.SZ&f=sl1d1t1c1ohgv&e
+http://in.finance.yahoo.com/d/quotes.csv?s=000002.SZ&f=sl1d1t1c1ohgv&e=.csv
+http://download.finance.yahoo.com/d/quotes.csv?s=000001.SZ&f=sl1d1t1c1ohgv&e=.csv
+示例：  
+"000001.SZ",14.99,"3/6/2009","2:00am",-0.16,14.75,  15.35, 14.72, 45439592 
+"000002.SZ",8.08 ,"3/6/2009","2:00am",+0.15,7.80 ,  8.23 , 7.75 , 224880880 
+股票名称    当前价 日期       时间    XX    今开盘  今最高 今最低 成交量 注：无昨收盘、卖出价、成交额，且当前价=买入价。   
+
+三、其它  
+http://in.finance.yahoo.com/q?s=000001.SZ   
+
+四、图片  
+港股 http://ichart.finance.yahoo.com/t?s=1688.hk 
+上证 http://ichart.finance.yahoo.com/t?s=000001.sz 
+美股 http://ichart.finance.yahoo.com/t?s=LDK 
+
+http://ichart.yahoo.com/table.csv?s=600000.SS&d=09&e=8&f=2010&g=d
+
+
+
+
+一直想自己做个简单的股票系统，来记录股票的价格。在网上看了下，找到google finance api、雅虎财经API、新浪财经API。没有细研究这三个之间的区别，雅虎的API从易用性以及功能方面比较适合我的要求，就定雅虎了。另外还一个web service：http://www.webxml.com.cn/WebServices/StockInfoWS.asmx。不过我利用wsdl生产客户端的时候一个异常，貌似是因为版本的问题。还没有来得急细研究，今天的重点不在这。有个帖子列出了很多不错的web service
+http://topic.csdn.net/u/20081217/13/5a9075fc-feb1-4cde-96ac-5f982f7a1b7b.html
+1.获取实时数据
+
+http://finance.yahoo.com/d/quotes.csv?s=股票名称&f=数据列选项
+s — 表示股票名称，多个股票之间使用英文加号分隔，如“XOM+BBDb.TO+JNJ+MSFT”，罗列了四个公司的股票：XOM, BBDb.TO, JNJ, MSFT。
+f — 表示返回数据列，如“snd1l1yr”。更详细的参见附录
+2.历史数据请求
+
+http://ichart.yahoo.com/table.csv?s=string&a=int&b=int&c=int&d=int&e=int&f=int&g=d&ignore=.csv
+s — 股票名称
+a — 起始时间，月
+b — 起始时间，日
+c — 起始时间，年
+d — 结束时间，月
+e — 结束时间，日
+f — 结束时间，年
+g — 时间周期。
+Ø  参数g的取值范围：d->‘日’(day), w->‘周’(week)，m->‘月’(mouth)，v->‘dividends only’
+Ø  月份是从0开始的，如9月数据，则写为08。
+示例
+查询浦发银行2010.09.25 – 2010.10.8之间日线数据
+http://ichart.yahoo.com/table.csv?s=600000.SS&a=08&b=25&c=2010&d=09&e=8&f=2010&g=d
+http://ichart.yahoo.com/table.csv?s=600000.SS&d=09&e=8&f=2010&g=d
+查看国内沪深股市的股票，规则是：沪股代码末尾加.ss，深股代码末尾加.sz。如浦发银行的代号是：600000.SS
+附录
+雅虎股票API f参数对照表
+a
+Ask
+a2
+Average Daily Volume
+a5
+Ask Size
+b
+Bid
+b2
+Ask (Real-time)
+b3
+Bid (Real-time)
+b4
+Book Value
+b6
+Bid Size
+c
+Change & Percent Change
+c1
+Change
+c3
+Commission
+c6
+Change (Real-time)
+c8
+After Hours Change (Real-time)
+d
+Dividend/Share
+d1
+Last Trade Date
+d2
+Trade Date
+e
+Earnings/Share
+e1
+Error Indication (returned for symbol changed / invalid)
+e7
+EPS Estimate Current Year
+e8
+EPS Estimate Next Year
+e9
+EPS Estimate Next Quarter
+f6
+Float Shares
+g
+Day’s Low
+h
+Day’s High
+j
+52-week Low
+k
+52-week High
+g1
+Holdings Gain Percent
+g3
+Annualized Gain
+g4
+Holdings Gain
+g5
+Holdings Gain Percent (Real-time)
+g6
+Holdings Gain (Real-time)
+i
+More Info
+i5
+Order Book (Real-time)
+j1
+Market Capitalization
+j3
+Market Cap (Real-time)
+j4
+EBITDA
+j5
+Change From 52-week Low
+j6
+Percent Change From 52-week Low
+k1
+Last Trade (Real-time) With Time
+k2
+Change Percent (Real-time)
+k3
+Last Trade Size
+k4
+Change From 52-week High
+k5
+Percebt Change From 52-week High
+l
+Last Trade (With Time)
+l1
+Last Trade (Price Only)
+l2
+High Limit
+l3
+Low Limit
+m
+Day’s Range
+m2
+Day’s Range (Real-time)
+m3
+50-day Moving Average
+m4
+200-day Moving Average
+m5
+Change From 200-day Moving Average
+m6
+Percent Change From 200-day Moving Average
+m7
+Change From 50-day Moving Average
+m8
+Percent Change From 50-day Moving Average
+n
+Name
+n4
+Notes
+o
+Open
+p
+Previous Close
+p1
+Price Paid
+p2
+Change in Percent
+p5
+Price/Sales
+p6
+Price/Book
+q
+Ex-Dividend Date
+r
+P/E Ratio
+r1
+Dividend Pay Date
+r2
+P/E Ratio (Real-time)
+r5
+PEG Ratio
+r6
+Price/EPS Estimate Current Year
+r7
+Price/EPS Estimate Next Year
+s
+Symbol
+s1
+Shares Owned
+s7
+Short Ratio
+t1
+Last Trade Time
+t6
+Trade Links
+t7
+Ticker Trend
+t8
+1 yr Target Price
+v
+Volume
+v1
+Holdings Value
+v7
+Holdings Value (Real-time)
+w
+52-week Range
+w1
+Day’s Value Change
+w4
+Day’s Value Change (Real-time)
+x
+Stock Exchange
+
+
+我在弄股票行情数据
+day，week，month，year
+sh，sz
+股票id，快4000个了
+历史数据，从1990年开始到现在24年，差不多平均每个股票按4000条算
