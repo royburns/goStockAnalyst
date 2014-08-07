@@ -5,7 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/httplib"
 	"github.com/royburns/goStockAnalyst/models"
-	"strconv"
+	// "strconv"
 	"strings"
 	// "time"
 )
@@ -44,71 +44,40 @@ func (this *IndexController) Stock() {
 		fmt.Println(err.Error())
 	}
 
-	days := make([]*models.StockDay, 0)
+	// days := make([]models.StockDay, 0)
+	var days []interface{}
 	lines := strings.Split(str, "\n")
+	fmt.Println(len(lines))
 	for i := 1; i < len(lines); i++ {
 		column := strings.Split(lines[i], ",")
-		temp := new(models.StockDay)
+		// fmt.Println(i)
+		// fmt.Println(len(column))
+		if len(column) > 1 {
+			// temp := new(models.StockDay)
+			var temp models.StockDay
 
-		temp.Code = column[0]
+			temp.Code = column[0]
 
-		// t := time.Parse("2014-08-07", column[1])
-		// temp.Data = t.
-		temp.Date = column[1]
+			// t := time.Parse("2014-08-07", column[1])
+			// temp.Data = t.
+			temp.Date = column[1]
 
-		f, _ := strconv.ParseFloat(column[2], 2)
-		temp.Open = float32(f)
-		f, _ = strconv.ParseFloat(column[3], 2)
-		temp.Hight = float32(f)
-		f, _ = strconv.ParseFloat(column[4], 2)
-		temp.Low = float32(f)
-		f, _ = strconv.ParseFloat(column[5], 2)
-		temp.Close = float32(f)
+			// f, _ := strconv.ParseFloat(column[2], 2)
+			// temp.Open = float32(f)
+			// f, _ = strconv.ParseFloat(column[3], 2)
+			// temp.Hight = float32(f)
+			// f, _ = strconv.ParseFloat(column[4], 2)
+			// temp.Low = float32(f)
+			// f, _ = strconv.ParseFloat(column[5], 2)
+			// temp.Close = float32(f)
 
-		i, _ = strconv.Atoi(column[6])
-		temp.Vol = int32(i)
+			// i, _ = strconv.Atoi(column[6])
+			// temp.Vol = int32(i)
 
-		days = append(days, temp)
+			days = append(days, temp)
+		}
 	}
 
-	this.Data["json"] = days
+	this.Data["json"] = &days
 	this.ServeJson()
-
-	// var v interface{}
-	// err := req.ToJson(v)
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// }
-
-	// fmt.Println(v)
-}
-
-type page struct {
-	IsActive  bool
-	TestPlans string
-	PageNum   int
-}
-
-// calPageList returns page lists.
-func calPageList(p, maxPageNum int) []*page {
-	listSize := 15
-	hls := listSize / 2
-	pl := make([]*page, 0, listSize)
-
-	start, end := p-hls, p+hls
-	if p < hls+1 {
-		start, end = 1, listSize
-	}
-
-	if end > maxPageNum {
-		end = maxPageNum
-	}
-
-	for i := start; i <= end; i++ {
-		pl = append(pl, &page{
-			IsActive: i == p,
-			PageNum:  i,
-		})
-	}
-	return pl
 }
