@@ -18,7 +18,7 @@ var (
 )
 
 func InitDB() (err error) {
-	utils.LoadConfig("../conf/app.conf")
+	utils.LoadConfig("./conf/app.conf")
 	dbtype := utils.Cfg.MustValue("db", "dbtype")
 	host := utils.Cfg.MustValue("db", "host")
 	port := utils.Cfg.MustValue("db", "port")

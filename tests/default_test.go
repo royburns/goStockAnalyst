@@ -1,7 +1,7 @@
 package test
 
 import (
-	_ "github.com/royburns/goTestLinkReport/routers"
+	_ "github.com/royburns/goStockAnalyst/routers"
 	"net/http"
 	"net/http/httptest"
 	"testing"

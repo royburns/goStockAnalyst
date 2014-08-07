@@ -45,55 +45,60 @@ type StockCompany struct {
 }
 type StockDay struct {
 	//
-	Data uint32
+	Code string
+	// Data uint32
+	Date string
 
-	Open  int32
-	Close int32
-	Hight int32
-	Low   int32
+	Open  float32
+	Close float32
+	Hight float32
+	Low   float32
 
 	Amount   float32 //
-	Vol      int     //gu
-	Reserved int
+	Vol      int32   //gu
+	Reserved int32
 }
 
 type StockWeek struct {
+	Code string
 	Data uint32
 
-	Open  int32
-	Close int32
-	Hight int32
-	Low   int32
+	Open  float32
+	Close float32
+	Hight float32
+	Low   float32
 
 	Amount   float32
-	Vol      int
-	Reserved int
+	Vol      int32
+	Reserved int32
 }
 
 type StockMonth struct {
+	Code string
 	Data uint32
 
-	Open  int32
-	Close int32
-	Hight int32
-	Low   int32
+	Open  float32
+	Close float32
+	Hight float32
+	Low   float32
 
 	Amount   float32
-	Vol      int
-	Reserved int
+	Vol      int32
+	Reserved int32
 }
 
 type StockYear struct {
+	Code string
 	Data uint32
 
-	Open  int32
-	Close int32
-	Hight int32
-	Low   int32
+	Open  float32
+	Close float32
+	Hight float32
+	Low   float32
 
 	Amount   float32
-	Vol      int
-	Reserved int
+	Vol      int32
+	Reserved int32
 }
 
 func (this *StockDay) GetOpen() float32 {
