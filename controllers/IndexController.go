@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	// "fmt"
+	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/royburns/goTestLinkReport/models"
-	// "strconv"
-	// "strings"
+	"github.com/astaxie/beego/httplib"
+	"github.com/royburns/goStockAnalyst/models"
+	"strconv"
+	"strings"
+	// "time"
 )
 
 type IndexController struct {
@@ -14,54 +16,71 @@ type IndexController struct {
 
 func (this *IndexController) Get() {
 
-	ExecutionsTableHeader := models.GetExectutionTableHeader()
-
-	// Calculate pages.
-	// pagenum := 20
-	// pn, err := strconv.Atoi(this.Input().Get("p"))
-	// maxPageNum := int(models.GetExecutionCount()/int64(pagenum)) + 1
-	// if err != nil || pn > maxPageNum {
-	// 	pn = 1
-	// }
-
-	// if pn < 10 {
-	// 	this.Data["Prev"] = 1
-	// } else {
-	// 	this.Data["Prev"] = pn - 10
-	// }
-
-	// if pn > maxPageNum-10 {
-	// 	this.Data["Next"] = maxPageNum
-	// } else {
-	// 	this.Data["Next"] = pn + 10
-	// }
-
-	// // Get TestPlans
-	// testplans := make(map[int]string)
-	// res := models.GetAllTestPlans("v_testlink_testexecution_tree")
-	// for key, item := range res {
-	// 	testplans[key] = string(item["TestPlan"])
-	// }
-	// this.Data["TestPlans"] = testplans
-
-	// // Calculate page list.
-	// this.Data["PageList"] = calPageList(pn, maxPageNum)
-
-	// // 100, (page-1)*100
-	// testexecution_tree, err := models.GetAllExecutions(pagenum, (pn-1)*pagenum)
-
-	// if err != nil {
-	// 	beego.Debug(fmt.Sprintf("Failed to get reports from db: %v\n", err))
-	// } else {
-	// 	beego.Debug("Success!!!")
-	// }
-
-	this.Data["TableHeader"] = ExecutionsTableHeader
-	// this.Data["TestExecutionTree"] = testexecution_tree
 	this.Data["Website"] = "goTestLinkReport.org"
 	this.Data["Email"] = "roy.burns@163.com"
 
 	this.TplNames = "index.tpl"
+}
+
+// type StockDay struct {
+// 	//
+// 	Code string
+// 	Data uint32
+
+// 	Open  float32
+// 	Close float32
+// 	Hight float32
+// 	Low   float32
+
+// 	Amount   float32 //
+// 	Vol      int32   //gu
+// 	Reserved int32
+// }
+func (this *IndexController) Stock() {
+	fmt.Println("In GetStock()...")
+	req := httplib.Get("http://xueqiu.com/S/SH601166/historical.csv")
+	str, err := req.String()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	days := make([]*models.StockDay, 0)
+	lines := strings.Split(str, "\n")
+	for i := 1; i < len(lines); i++ {
+		column := strings.Split(lines[i], ",")
+		temp := new(models.StockDay)
+
+		temp.Code = column[0]
+
+		// t := time.Parse("2014-08-07", column[1])
+		// temp.Data = t.
+		temp.Date = column[1]
+
+		f, _ := strconv.ParseFloat(column[2], 2)
+		temp.Open = float32(f)
+		f, _ = strconv.ParseFloat(column[3], 2)
+		temp.Hight = float32(f)
+		f, _ = strconv.ParseFloat(column[4], 2)
+		temp.Low = float32(f)
+		f, _ = strconv.ParseFloat(column[5], 2)
+		temp.Close = float32(f)
+
+		i, _ = strconv.Atoi(column[6])
+		temp.Vol = int32(i)
+
+		days = append(days, temp)
+	}
+
+	this.Data["json"] = days
+	this.ServeJson()
+
+	// var v interface{}
+	// err := req.ToJson(v)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
+
+	// fmt.Println(v)
 }
 
 type page struct {

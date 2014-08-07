@@ -602,3 +602,53 @@
 
 		</script>
 		{{end}}
+
+		{{define "stock_csv"}}
+		<script>
+			$(document).ready(function() {
+				// alert("...");
+
+				var options = {
+					chart: {
+						renderTo: "stock_csv",
+						type: "spline"
+					},
+					series: [{},{},{},{},{}]
+				};
+
+				// $.getJSON("http://xueqiu.com/S/SH601166/historical.csv", function(data) {
+				$.get("http://xueqiu.com/S/SH601166/historical.csv", function(data) {
+
+					var lines = data.split('\n');
+
+					$.each(lines, function(index, el) {
+						var items = el.split(",");
+
+						if (index == 0) {
+							$.each(items, function(index, el) {
+								if (index > 0) {
+									options.xAxis.categories.push(el);
+								};
+							});
+						} else {
+							var series = {
+								data: []
+							};
+							$.each(items, function(index, el) {
+								if (index == 0) {
+									series.name = el
+								} else{
+									series.data.push(el);
+								};
+							});
+
+							options.series.push(series);
+						};
+					});
+
+					var chart = new Highcharts.Chart(options);
+				});
+				
+			});
+		</script>
+		{{end}}

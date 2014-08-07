@@ -6,6 +6,7 @@ import (
 	"github.com/royburns/goStockAnalyst/models"
 	"os"
 	// "strings"
+	"strconv"
 )
 
 type JsonData struct {
@@ -41,8 +42,8 @@ func main() {
 
 	models.InitDB()
 	fmt.Println("Read Begin")
-	// filename := "../doc/ss_a_page1.txt"
-	filename := "E:\\GoProjects\\src\\github.com\\royburns\\goStockAnalyst\\doc\\ss_a_page4.txt"
+	filename := "../doc/ss_a_page1.txt"
+	// filename := "E:\\GoProjects\\src\\github.com\\royburns\\goStockAnalyst\\doc\\ss_a_page1.txt"
 	j := new(JsonData)
 	err := ReadJson(filename, j)
 	if err != nil {
@@ -56,7 +57,9 @@ func main() {
 	sc := make([]models.StockCompany, 0)
 	for i := 0; i < len(j.Result); i++ {
 		var tmp models.StockCompany
-		tmp.Id = j.Result[i].ID
+		// tmp.Id = j.Result[i].ID
+		number, _ := strconv.Atoi(j.Result[i].ProductID)
+		tmp.Id = int64(number)
 		tmp.Name = j.Result[i].ProductName
 		tmp.FullName = j.Result[i].FullName
 
