@@ -49,10 +49,10 @@ type StockDay struct {
 	// Data uint32
 	Date string
 
-	Open  float32
-	Close float32
-	Hight float32
-	Low   float32
+	Open  string
+	Close string
+	High  string
+	Low   string
 
 	Amount   float32 //
 	Vol      int32   //gu
@@ -65,7 +65,7 @@ type StockWeek struct {
 
 	Open  float32
 	Close float32
-	Hight float32
+	High  float32
 	Low   float32
 
 	Amount   float32
@@ -79,7 +79,7 @@ type StockMonth struct {
 
 	Open  float32
 	Close float32
-	Hight float32
+	High  float32
 	Low   float32
 
 	Amount   float32
@@ -93,26 +93,10 @@ type StockYear struct {
 
 	Open  float32
 	Close float32
-	Hight float32
+	High  float32
 	Low   float32
 
 	Amount   float32
 	Vol      int32
 	Reserved int32
-}
-
-func (this *StockDay) GetOpen() float32 {
-	return 0.01 * float32(this.Open)
-}
-
-func (this *StockDay) GetClose() float32 {
-	return 0.01 * float32(this.Close)
-}
-
-func (this *StockDay) GetHight() float32 {
-	return 0.01 * float32(this.Hight)
-}
-
-func (this *StockDay) GetLow() float32 {
-	return 0.01 * float32(this.Low)
 }

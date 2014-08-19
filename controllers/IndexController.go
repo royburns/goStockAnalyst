@@ -48,7 +48,8 @@ func (this *IndexController) Stock() {
 	var days []interface{}
 	lines := strings.Split(str, "\n")
 	fmt.Println(len(lines))
-	for i := 1; i < len(lines); i++ {
+	// for i := 1; i < len(lines); i++ {
+	for i := 1; i < 100; i++ {
 		column := strings.Split(lines[i], ",")
 		// fmt.Println(i)
 		// fmt.Println(len(column))
@@ -62,14 +63,20 @@ func (this *IndexController) Stock() {
 			// temp.Data = t.
 			temp.Date = column[1]
 
-			// f, _ := strconv.ParseFloat(column[2], 2)
+			// f, _ := strconv.ParseFloat(column[2], 8)
 			// temp.Open = float32(f)
+			// fmt.Println(temp.Open)
 			// f, _ = strconv.ParseFloat(column[3], 2)
-			// temp.Hight = float32(f)
+			// temp.High = float32(f)
 			// f, _ = strconv.ParseFloat(column[4], 2)
 			// temp.Low = float32(f)
 			// f, _ = strconv.ParseFloat(column[5], 2)
 			// temp.Close = float32(f)
+
+			temp.Open = column[2]
+			temp.High = column[3]
+			temp.Low = column[4]
+			temp.Close = column[5]
 
 			// i, _ = strconv.Atoi(column[6])
 			// temp.Vol = int32(i)

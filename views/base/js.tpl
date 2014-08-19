@@ -610,16 +610,37 @@
 
 				var options = {
 					chart: {
-						renderTo: "stock_csv",
+						renderTo: 'stock_csv',
+						// defaultSeriesType: 'spline'
 						type: "spline"
 					},
-					series: [{},{},{},{},{}]
+					title: {
+						text: 'Stock'
+					},
+					xAxis: {
+						categories: []
+					},
+					yAxis: {
+						title: {
+							text: 'Prices'
+						}
+					},
+					series: []
 				};
 
 				// $.getJSON("http://xueqiu.com/S/SH601166/historical.csv", function(data) {
-				$.get("http://xueqiu.com/S/SH601166/historical.csv", function(data) {
-
+				$.get("/data/table.csv", function(data) {
+					// alert("...");
 					var lines = data.split('\n');
+
+					var t = {
+						Date: [],
+						Open: [],
+						High: [],
+						Low: [],
+						Close: [],
+						Volume: [],
+					};
 
 					$.each(lines, function(index, el) {
 						var items = el.split(",");
@@ -627,23 +648,118 @@
 						if (index == 0) {
 							$.each(items, function(index, el) {
 								if (index > 0) {
-									options.xAxis.categories.push(el);
+									// options.xAxis.categories.push(el);
 								};
 							});
 						} else {
-							var series = {
-								data: []
-							};
-							$.each(items, function(index, el) {
-								if (index == 0) {
-									series.name = el
-								} else{
-									series.data.push(el);
-								};
-							});
-
-							options.series.push(series);
+							// alert(items[0]);
+							t.Date.push(items[0]);
+							t.Open.push(parseFloat(items[1]));
+							t.High.push(parseFloat(items[2]));
+							t.Low.push(parseFloat(items[3]));
+							t.Close.push(parseFloat(items[4]));
+							t.Volume.push(items[5]);
 						};
+					});
+
+					options.xAxis.categories.push(t.Date);
+					options.series.push({
+						name: "Open",
+						data: t["Open"]
+					});
+					options.series.push({
+						name: "High",
+						data: t["High"]
+					});
+					options.series.push({
+						name: "Low",
+						data: t["Low"]
+					});
+					options.series.push({
+						name: "Close",
+						data: t["Close"]
+					});
+					
+					var chart = new Highcharts.Chart(options);
+				});
+				
+			});
+		</script>
+		{{end}}
+
+		{{define "stock_json"}}
+		<script>
+			$(document).ready(function() {
+				// alert("...");
+
+				var options = {
+					chart: {
+						renderTo: 'stock_json',
+						defaultSeriesType: 'spline'
+					},
+					title: {
+						text: 'Sprint Statistics'
+					},
+					xAxis: {
+						categories: []
+					},
+					yAxis: {
+						title: {
+							text: 'Counts'
+						}
+					},
+					series: []
+				};
+
+				$.getJSON("http://localhost:8080/api/getstock", function(data) {
+
+					// alert("...");
+					options.subtitle = {
+						text: "statistics_sprint_json2"
+					};
+
+					var t = {
+						Date: [],
+						Open: [],
+						Close: [],
+						High: [],
+						Low: [],
+						Amount: [],
+						Vol: [],
+						Reserved: []
+					};
+
+					for (var i = 0; i < data.length; i++) {
+						if (data[i]) {
+							// alert(data[i]["Date"]);
+							// var st = data[i]["Date"];
+							// var a = st.split("T");
+							// var b = a[0].split("-");
+							// var date = new Date(b[0], b[1], b[2]);
+							// options.xAxis.categories.push(date.toLocaleString().split(" ")[0]);
+
+							// alert(data[i]["Open"]);
+							t["Open"].push(parseFloat(data[i]["Open"]));
+							t["Close"].push(parseFloat(data[i]["Close"]));
+							t["High"].push(parseFloat(data[i]["High"]));
+							t["Low"].push(parseFloat(data[i]["Low"]));
+						};
+					};
+					options.series.push({
+						name: "Open",
+						data: t["Open"]
+					});
+					options.series.push({
+						name: "Close",
+						data: t["Close"]
+					});
+					options.series.push({
+						name: "High",
+						data: t["High"]
+					});
+					options.series.push({
+						name: "Low",
+						data: t["Low"]
 					});
 
 					var chart = new Highcharts.Chart(options);

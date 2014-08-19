@@ -12,4 +12,7 @@ func init() {
 
 	beego.Router("/test", &controllers.TestController{})
 	beego.Router("/about", &controllers.AboutController{})
+
+	// static file
+	beego.SetStaticPath("/data", "data")
 }

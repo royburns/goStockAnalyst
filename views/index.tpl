@@ -99,10 +99,14 @@
 
 		</div>
 
+		<br/>
 		<div id="stock_csv" style="width: 800px; min-width: 310px; height: 400px; margin: 0 auto"></div>
+		<br/>
+		<div id="stock_json" style="width: 800px; min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 		{{template "home_js"}}
 		{{template "stock_csv"}}
+		
 		{{template "base/js.tpl" .}}
 
 		{{template "base/footer.tpl" .}}

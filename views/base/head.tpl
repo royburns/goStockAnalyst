@@ -10,7 +10,7 @@
 		<script src="/static/js/jquery.pin.min.js"></script>
 		<script src="/static/js/sco.tooltip.js"></script>
 		<script src="/static/js/app.js"></script>
-		<script src="../../js/highstock.js"></script>
+		<script src="/static/js/Highstock-2.0.3/highstock.js"></script>
 		
 		<script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="/static/js/jquery.ui.touch-punch.min.js"></script>
